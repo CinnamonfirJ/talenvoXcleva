@@ -12,6 +12,7 @@ import { Bell } from "lucide-react-native";
 import { useRouter } from "expo-router";
 import { images } from "@/constants/images";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { getUserProfile } from "@/services/auth";
 
 interface subjects {
   title: string;
@@ -91,7 +92,22 @@ const ContinueLearningCard = ({
 export default function Home() {
   const router = useRouter();
   const [isNewUser, setIsNewUser] = useState(true);
-  const userName = "Ilerioluwa"; // This would come from your auth system
+  const [userName, setUserName] = useState(); // This would come from your auth system
+
+  // Load user profile from API
+  useEffect(() => {
+    const loadProfile = async () => {
+      try {
+        const userData = await getUserProfile();
+        const fullName = userData.firstName + userData.lastName;
+        setUserName(fullName);
+      } catch (error) {
+        console.error("Error loading profile:", error);
+      }
+    };
+
+    loadProfile();
+  }, []);
 
   // Check if user is new or existing
   useEffect(() => {

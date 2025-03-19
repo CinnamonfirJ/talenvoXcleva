@@ -1,22 +1,31 @@
-import { icons } from "@/constants/icons";
-import { Tabs } from "expo-router";
 import React from "react";
-import { Image, Text, View } from "react-native";
+import { Tabs } from "expo-router";
+import { Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import {
+  Home,
+  BookOpen,
+  LineChart,
+  ClipboardList,
+  Settings,
+} from "lucide-react-native"; // Import Lucide icons
 
-const TabIcon = ({ focused, title, icon }: any) => {
+const TabIcon = ({ focused, title, Icon }: any) => {
   return (
-    <View className='w-full justify-center items-center py-2 my-2'>
-      <Image
-        source={icon}
-        tintColor={focused ? "#E1C46D" : "#ffffff"}
-        className='w-6 h-6'
-      />
+    <View className='justify-center items-center my-3'>
+      <Icon size={26} color={focused ? "#E1C46D" : "#A5A5A5"} />
       <Text
         numberOfLines={1}
-        ellipsizeMode='tail'
-        className={`${focused ? "text-[#E1C46D]" : "text-white"} text-center`}
-        style={{ fontSize: 10 }}
+        ellipsizeMode='clip' // Ensures text is fully visible
+        style={{
+          fontSize: 12,
+          fontWeight: "600",
+          color: focused ? "#E1C46D" : "#A5A5A5",
+          marginTop: 4,
+          textAlign: "center",
+          zIndex: 10,
+          minWidth: 70, // Ensures text has enough space
+        }}
       >
         {title}
       </Text>
@@ -32,21 +41,21 @@ const _layout = () => {
       screenOptions={{
         tabBarShowLabel: false,
         tabBarItemStyle: {
-          width: "100%",
-          height: "100%",
           justifyContent: "center",
           alignItems: "center",
+          minHeight: 65, // Prevents tab bar from cutting off text
         },
         tabBarStyle: {
           backgroundColor: "#03174B",
-          height: 60 + insets.bottom, // Slightly shorter but still comfortable
+          height: 60 + insets.bottom, // Increased height
           borderTopWidth: 0,
+          paddingBottom: insets.bottom + 10, // Extra padding to avoid cutoff
+          paddingTop: 8, // Gives more space for text visibility
           elevation: 8,
           shadowColor: "#000",
           shadowOffset: { width: 0, height: -3 },
           shadowOpacity: 0.1,
           shadowRadius: 4,
-          paddingBottom: insets.bottom,
         },
       }}
     >
@@ -56,7 +65,7 @@ const _layout = () => {
           headerShown: false,
           title: "Home",
           tabBarIcon: ({ focused }) => (
-            <TabIcon focused={focused} title='Home' icon={icons.home} />
+            <TabIcon focused={focused} title='Home' Icon={Home} />
           ),
         }}
       />
@@ -66,7 +75,7 @@ const _layout = () => {
           headerShown: false,
           title: "Learn",
           tabBarIcon: ({ focused }) => (
-            <TabIcon focused={focused} title='Learn' icon={icons.learn} />
+            <TabIcon focused={focused} title='Learn' Icon={BookOpen} />
           ),
         }}
       />
@@ -76,7 +85,7 @@ const _layout = () => {
           headerShown: false,
           title: "Progress",
           tabBarIcon: ({ focused }) => (
-            <TabIcon focused={focused} title='Progress' icon={icons.progress} />
+            <TabIcon focused={focused} title='Progress' Icon={LineChart} />
           ),
         }}
       />
@@ -86,7 +95,7 @@ const _layout = () => {
           headerShown: false,
           title: "Quiz",
           tabBarIcon: ({ focused }) => (
-            <TabIcon focused={focused} title='Quiz' icon={icons.quiz} />
+            <TabIcon focused={focused} title='Quiz' Icon={ClipboardList} />
           ),
         }}
       />
@@ -96,7 +105,7 @@ const _layout = () => {
           headerShown: false,
           title: "Settings",
           tabBarIcon: ({ focused }) => (
-            <TabIcon focused={focused} title='Settings' icon={icons.settings} />
+            <TabIcon focused={focused} title='Settings' Icon={Settings} />
           ),
         }}
       />
