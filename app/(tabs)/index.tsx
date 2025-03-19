@@ -118,7 +118,7 @@ export default function Home() {
     };
 
     // Call this function to clear storage
-    clearStorage();
+    // clearStorage();
   }, []);
 
   const navigateToSubject = (subject: string) => {

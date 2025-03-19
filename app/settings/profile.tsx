@@ -1,4 +1,3 @@
-// app/settings/profile.tsx
 import React, { useState, useEffect } from "react";
 import {
   View,
@@ -10,11 +9,15 @@ import {
   TextInput,
   Image,
   Alert,
+  ActivityIndicator,
 } from "react-native";
 import { useRouter } from "expo-router";
-import { ChevronLeft, Camera, Edit2 } from "lucide-react-native";
+import { ChevronLeft, Camera } from "lucide-react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as ImagePicker from "expo-image-picker";
+import { getUserProfile } from "@/services/auth";
+
+const BASE_URL = "https://talenvo-hackaton-be.onrender.com/api/v1";
 
 // Input Field Component
 const InputField = ({
@@ -60,22 +63,24 @@ export default function ProfilePage() {
     email: "",
     profilePicture: null,
   });
-  const [currentPassword, setCurrentPassword] = useState("");
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(true);
 
-  // Load user profile
+  // Load user profile from API
   useEffect(() => {
     const loadProfile = async () => {
       try {
-        const profileData = await AsyncStorage.getItem("user-profile");
-        if (profileData) {
-          setProfile(JSON.parse(profileData));
-        }
+        const userData = await getUserProfile();
+        const fullName = userData.firstName + userData.lastName;
+        setProfile({
+          fullName: fullName || "",
+          email: userData.email || "",
+          profilePicture: userData.profilePicture || null,
+        });
+
         setLoading(false);
       } catch (error) {
         console.error("Error loading profile:", error);
+        Alert.alert("Error", "Failed to load profile");
         setLoading(false);
       }
     };
@@ -83,10 +88,25 @@ export default function ProfilePage() {
     loadProfile();
   }, []);
 
-  // Save profile changes
+  // Save profile changes to API
   const saveProfile = async () => {
     try {
-      await AsyncStorage.setItem("user-profile", JSON.stringify(profile));
+      const token = await AsyncStorage.getItem("userToken");
+      if (!token) throw new Error("No token found");
+
+      const response = await fetch(`${BASE_URL}/user/update-profile`, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(profile),
+      });
+
+      const data = await response.json();
+      if (!response.ok)
+        throw new Error(data?.message || "Failed to update profile");
+
       Alert.alert("Success", "Profile updated successfully");
     } catch (error) {
       console.error("Error saving profile:", error);
@@ -94,32 +114,9 @@ export default function ProfilePage() {
     }
   };
 
-  // Change password
-  const changePassword = () => {
-    // In a real app, you would validate the current password
-    // and send the new password to your backend
-
-    if (newPassword !== confirmPassword) {
-      Alert.alert("Error", "New passwords do not match");
-      return;
-    }
-
-    if (newPassword.length < 6) {
-      Alert.alert("Error", "Password must be at least 6 characters");
-      return;
-    }
-
-    // Mock password change
-    Alert.alert("Success", "Password changed successfully");
-    setCurrentPassword("");
-    setNewPassword("");
-    setConfirmPassword("");
-  };
-
   // Pick image from gallery
   const pickImage = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-
     if (status !== "granted") {
       Alert.alert(
         "Permission Required",
@@ -136,49 +133,15 @@ export default function ProfilePage() {
     });
 
     if (!result.canceled) {
-      setProfile({
-        ...profile,
-        profilePicture: result.assets[0].uri,
-      });
+      setProfile({ ...profile, profilePicture: result.assets[0].uri });
     }
-  };
-
-  // Take photo with camera
-  const takePhoto = async () => {
-    const { status } = await ImagePicker.requestCameraPermissionsAsync();
-
-    if (status !== "granted") {
-      Alert.alert("Permission Required", "Please allow access to your camera");
-      return;
-    }
-
-    const result = await ImagePicker.launchCameraAsync({
-      allowsEditing: true,
-      aspect: [1, 1],
-      quality: 0.5,
-    });
-
-    if (!result.canceled) {
-      setProfile({
-        ...profile,
-        profilePicture: result.assets[0].uri,
-      });
-    }
-  };
-
-  // Show image picker options
-  const showImageOptions = () => {
-    Alert.alert("Change Profile Picture", "Choose an option", [
-      { text: "Take Photo", onPress: takePhoto },
-      { text: "Choose from Gallery", onPress: pickImage },
-      { text: "Cancel", style: "cancel" },
-    ]);
   };
 
   // Show loading state
   if (loading) {
     return (
       <SafeAreaView className='flex-1 bg-[#f5f7fa] items-center justify-center'>
+        <ActivityIndicator size='large' color='#0a3d91' />
         <Text>Loading profile...</Text>
       </SafeAreaView>
     );
@@ -212,7 +175,7 @@ export default function ProfilePage() {
             />
             <TouchableOpacity
               className='absolute bottom-0 right-0 bg-[#0a3d91] p-2 rounded-full'
-              onPress={showImageOptions}
+              onPress={pickImage}
             >
               <Camera size={16} color='#fff' />
             </TouchableOpacity>
@@ -234,7 +197,8 @@ export default function ProfilePage() {
           <InputField
             label='Email'
             value={profile.email}
-            onChangeText={(text) => setProfile({ ...profile, email: text })}
+            onChangeText={() => {}}
+            editable={false}
           />
 
           <TouchableOpacity
@@ -242,41 +206,6 @@ export default function ProfilePage() {
             onPress={saveProfile}
           >
             <Text className='text-white font-medium'>Save Changes</Text>
-          </TouchableOpacity>
-        </View>
-
-        {/* Change Password */}
-        <View className='bg-white rounded-lg p-4 mb-6'>
-          <Text className='text-lg font-semibold text-gray-800 mb-4'>
-            Change Password
-          </Text>
-
-          <InputField
-            label='Current Password'
-            value={currentPassword}
-            onChangeText={setCurrentPassword}
-            secureTextEntry
-          />
-
-          <InputField
-            label='New Password'
-            value={newPassword}
-            onChangeText={setNewPassword}
-            secureTextEntry
-          />
-
-          <InputField
-            label='Confirm New Password'
-            value={confirmPassword}
-            onChangeText={setConfirmPassword}
-            secureTextEntry
-          />
-
-          <TouchableOpacity
-            className='bg-[#0a3d91] rounded-lg py-3 items-center mt-2'
-            onPress={changePassword}
-          >
-            <Text className='text-white font-medium'>Change Password</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>

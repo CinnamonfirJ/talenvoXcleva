@@ -59,3 +59,31 @@ export const loginUser = async (email: string, password: string) => {
     throw error;
   }
 };
+
+// Fetch Current User Profile
+export const getUserProfile = async () => {
+  try {
+    const token = await AsyncStorage.getItem("userToken");
+    if (!token) {
+      throw new Error("User not authenticated");
+    }
+
+    const response = await fetch(`${BASE_URL}/auth/me`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data?.message || "Failed to fetch user profile");
+    }
+
+    return data.data;
+  } catch (error) {
+    throw error;
+  }
+};
