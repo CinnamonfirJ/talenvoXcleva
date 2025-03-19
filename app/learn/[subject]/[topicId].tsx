@@ -171,7 +171,7 @@ export default function TopicDetail() {
               ? { uri: topic.image }
               : images.adaptiveIcon
           }
-          className='w-full h-[180px] rounded-b-xl'
+          className='w-full h-[180px] rounded-xl'
           resizeMode='cover'
         />
 

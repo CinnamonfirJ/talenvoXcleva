@@ -23,10 +23,13 @@ interface subjects {
 const SubjectCard = ({ title, subtitle, image, onPress }: subjects) => {
   return (
     <TouchableOpacity
-      className='w-[48%] rounded-xl overflow-hidden bg-white shadow-sm'
+      className='w-[48%] rounded-xl bg-white overflow-hidden shadow-sm'
       onPress={onPress}
     >
-      <Image source={image} className='w-full h-[150px] object-cover' />
+      <Image
+        source={image}
+        className='w-full h-[150px] rounded-xl  object-cover'
+      />
       <View className='p-3'>
         <Text className='text-base font-medium text-black'>{title}</Text>
         {subtitle ? (
