@@ -29,6 +29,7 @@ export default function RootLayout() {
           setIsLoggedIn(true);
         } else {
           setIsLoggedIn(false); // Explicitly mark as logged out
+          router.push("/(auth)/login");
         }
       } catch (error) {
         console.error("Error checking auth and onboarding:", error);

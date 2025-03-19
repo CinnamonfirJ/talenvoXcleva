@@ -28,7 +28,7 @@ export default function LoginScreen() {
       await loginUser(form.email, form.password);
       showToast("success", "Login Successful", "Welcome back!");
 
-      router.replace("/(tabs)"); // Redirect to home page
+      router.replace("/(tabs)/index"); // Redirect to home page
     } catch (error: any) {
       showToast(
         "error",

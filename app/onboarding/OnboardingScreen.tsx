@@ -12,13 +12,17 @@ export default function OnboardingScreen() {
   };
 
   return (
-    <View className='flex-1 items-center justify-center bg-white px-6'>
-      <Image source={images.chemistry} className='w-72 h-72 mb-6' />
+    <View className='flex-1 items-center justify-center bg-white px-2'>
+      <Image
+        source={images.onboarding}
+        className='w-full h-72 object-cover mb-6'
+      />
       <Text className='text-2xl font-bold mb-2 text-gray-800'>
         Welcome to LearnlyNG
       </Text>
-      <Text className='text-lg text-gray-500 text-center mb-6'>
-        Empowering Minds, Transforming Education.
+      <Text className=' text-gray-500 text-center mb-6'>
+        Explore exciting lessons, test your knowledge with quizzes, and earn
+        points as you learn. Keep growing, keep achieving!"
       </Text>
       <TouchableOpacity
         className='bg-blue-600 px-6 py-3 rounded-lg'

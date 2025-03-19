@@ -10,6 +10,7 @@ import geography from "@/assets/images/geography.jpg";
 import icon from "@/assets/images/icon.png";
 import math from "@/assets/images/math.jpg";
 import probability from "@/assets/images/probability.jpg";
+import onboarding from "@/assets/images/onboarding.png";
 // import reactLogo from "@/assets/images/react-logo.png";
 // import reactLogo2x from "@/assets/images/react-logo@2x.png";
 // import reactLogo3x from "@/assets/images/react-logo@3x.png";
@@ -31,6 +32,7 @@ export const images = {
   icon,
   math,
   probability,
+  onboarding,
   // reactLogo,
   // reactLogo2x,
   // reactLogo3x,
