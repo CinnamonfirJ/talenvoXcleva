@@ -12,6 +12,7 @@ import {
 import { Bell, ChevronLeft } from "lucide-react-native";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import { images } from "@/constants/images";
+import { topicDetails } from "@/constants/topicDetails";
 
 interface TopicCardProps {
   title: string;
@@ -91,7 +92,7 @@ const topicsBySubject: Record<string, Topic[]> = {
   english: [
     {
       id: 1,
-      title: "Grammar",
+      title: "Proper Nouns",
       description: "Master the rules of language structure",
       image: images.english,
     },

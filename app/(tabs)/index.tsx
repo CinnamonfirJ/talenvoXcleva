@@ -28,6 +28,7 @@ interface learnings {
   totalLessons: number;
   onPress: () => void;
 }
+
 // Reusable components
 const SubjectCard = ({ title, subtitle, image, onPress }: subjects) => {
   return (
@@ -106,6 +107,18 @@ export default function Home() {
     };
 
     checkUserStatus();
+
+    const clearStorage = async () => {
+      try {
+        await AsyncStorage.clear();
+        console.log("AsyncStorage cleared!");
+      } catch (error) {
+        console.error("Error clearing AsyncStorage:", error);
+      }
+    };
+
+    // Call this function to clear storage
+    clearStorage();
   }, []);
 
   const navigateToSubject = (subject: string) => {
