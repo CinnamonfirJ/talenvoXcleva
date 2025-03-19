@@ -10,24 +10,25 @@ export default function RootLayout() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [firstLaunch, setFirstLaunch] = useState<boolean | null>(null);
   const router = useRouter();
-  const [isMounted, setIsMounted] = useState(false); // To prevent navigation issues
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
-    setIsMounted(true); // Mark component as mounted
+    setIsMounted(true); // Ensure component is mounted
 
     const checkAuthAndOnboarding = async () => {
       try {
-        const [token, hasSeenOnboarding] = await Promise.all([
-          AsyncStorage.getItem("userToken"),
-          AsyncStorage.getItem("hasSeenOnboarding"),
-        ]);
+        const token = await AsyncStorage.getItem("userToken");
+        const hasSeenOnboarding = await AsyncStorage.getItem(
+          "hasSeenOnboarding"
+        );
 
+        // If hasSeenOnboarding is null, set firstLaunch to true
         setFirstLaunch(hasSeenOnboarding === null);
 
         if (token) {
           setIsLoggedIn(true);
-        } else if (isMounted) {
-          router.replace("/(auth)/login"); // Redirect only if component is mounted
+        } else {
+          setIsLoggedIn(false); // Explicitly mark as logged out
         }
       } catch (error) {
         console.error("Error checking auth and onboarding:", error);
@@ -38,8 +39,15 @@ export default function RootLayout() {
 
     checkAuthAndOnboarding();
 
-    return () => setIsMounted(false); // Cleanup on unmount
-  }, [router]);
+    return () => setIsMounted(false);
+  }, []);
+
+  // Redirect only when loading is done and user is not logged in
+  useEffect(() => {
+    if (!loading && isMounted && !isLoggedIn) {
+      router.push("/(auth)/login"); // Ensure navigation happens once
+    }
+  }, [loading, isLoggedIn, isMounted]);
 
   if (loading) {
     return (
@@ -64,8 +72,8 @@ export default function RootLayout() {
           </>
         ) : (
           <>
-            <Stack.Screen name='(auth)/signup' />
             <Stack.Screen name='(auth)/login' />
+            <Stack.Screen name='(auth)/signup' />
           </>
         )}
       </Stack>

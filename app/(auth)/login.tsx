@@ -41,15 +41,18 @@ export default function LoginScreen() {
   };
 
   return (
-    <View className='flex-1 bg-white px-6 pt-12'>
-      <Text className='text-2xl font-bold text-center text-gray-900'>
-        LearnlyNG
-      </Text>
-      <Text className='text-sm text-center text-gray-500'>
-        Empowering Minds, Transforming Education.
-      </Text>
+    <View className='flex-1 bg-white'>
+      <View className='relative w-full items-center'>
+        {/* Blue Background */}
+        <View className='bg-[#03174B] w-full h-40 items-center justify-center rounded-b-[150px]'>
+          <Text className='text-white text-4xl font-bold'>LearnlyNG</Text>
+          <Text className='text-white text-xs text-center px-4'>
+            Empowering Minds, Transforming Education.
+          </Text>
+        </View>
+      </View>
 
-      <View className='mt-8'>
+      <View className='mt-8 px-6'>
         <Text className='text-gray-700'>Email Address</Text>
         <TextInput
           className='border border-gray-300 rounded-md p-3 mt-1'
@@ -79,7 +82,7 @@ export default function LoginScreen() {
         </View>
 
         <TouchableOpacity
-          className='bg-blue-600 p-3 rounded-md mt-6'
+          className='bg-[#264191] p-3 rounded-xl mt-6'
           onPress={handleLogin}
           disabled={loading}
         >
@@ -93,7 +96,7 @@ export default function LoginScreen() {
         <Text className='text-center text-gray-600 mt-4'>
           Don't have an account?{" "}
           <Text
-            className='text-blue-600'
+            className='text-[#264191]'
             onPress={() => router.push("/signup")}
           >
             Sign Up

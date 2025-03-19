@@ -75,57 +75,55 @@ export const quizzes: Quiz[] = [
   },
   {
     id: 2,
-    title: "Angles and Geometry Quiz",
+    title: "Probability Quiz",
     instruction:
-      "Answer the following questions based on the concepts covered in the Angles course.",
+      "Answer the following questions based on the concepts covered in the Probability course.",
     passingScore: 60,
     maxScore: 100,
     xpReward: 40,
-    subject: "Mathematics", // For UI display
-    topic: "Angles", // For UI display
-    duration: "30 minutes", // For UI display
+    subject: "Mathematics",
+    topic: "Probability",
+    duration: "30 minutes",
     requiredLessons: { subject: "mathematics", topicId: "2", totalLessons: 3 },
     questions: [
       {
         id: 1,
-        questionText: "What is the sum of angles in a triangle?",
-        options: ["90°", "180°", "270°", "360°"],
-        correctAnswer: "180°",
+        questionText:
+          "What is the probability of getting a head when flipping a fair coin?",
+        options: ["0", "1/4", "1/2", "1"],
+        correctAnswer: "1/2",
         points: 20,
       },
       {
         id: 2,
         questionText:
-          "What is the measure of each angle in an equilateral triangle?",
-        options: ["30°", "45°", "60°", "90°"],
-        correctAnswer: "60°",
+          "A bag contains 4 red balls and 6 blue balls. What is the probability of randomly drawing a red ball?",
+        options: ["2/5", "3/5", "4/10", "6/10"],
+        correctAnswer: "2/5",
         points: 20,
       },
       {
         id: 3,
-        questionText: "What is the sum of interior angles in a quadrilateral?",
-        options: ["180°", "270°", "360°", "540°"],
-        correctAnswer: "360°",
+        questionText:
+          "What is the probability of rolling a 3 on a fair six-sided die?",
+        options: ["1/6", "1/3", "1/2", "2/3"],
+        correctAnswer: "1/6",
         points: 20,
       },
       {
         id: 4,
-        questionText: "Two angles that sum to 90° are called:",
-        options: [
-          "Complementary angles",
-          "Supplementary angles",
-          "Vertical angles",
-          "Adjacent angles",
-        ],
-        correctAnswer: "Complementary angles",
+        questionText:
+          "If two dice are rolled, what is the probability of getting a sum of 7?",
+        options: ["1/6", "1/12", "1/36", "1/2"],
+        correctAnswer: "1/6",
         points: 20,
       },
       {
         id: 5,
         questionText:
-          "What is the measure of each angle in a regular pentagon?",
-        options: ["60°", "72°", "108°", "120°"],
-        correctAnswer: "108°",
+          "A box contains 3 red, 5 green, and 2 blue marbles. If one marble is drawn at random, what is the probability that it is green?",
+        options: ["1/5", "1/2", "3/10", "5/10"],
+        correctAnswer: "1/2",
         points: 20,
       },
     ],

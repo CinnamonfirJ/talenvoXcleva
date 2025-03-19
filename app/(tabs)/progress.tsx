@@ -43,7 +43,7 @@ const AchievementCard = ({
     <View className={`${bgColor} rounded-xl p-4 shadow-sm w-[48%] mb-4`}>
       <View className='items-center mb-1'>{icon}</View>
       <Text className='text-center font-bold text-gray-800 mb-1'>{title}</Text>
-      <Text className='text-center text-xs text-gray-700'>{description}</Text>
+      <Text className='text-center text-xs text-gray-50'>{description}</Text>
     </View>
   );
 };
