@@ -1,7 +1,8 @@
-import React from "react";
-import { Tabs } from "expo-router";
-import { Text, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import { Tabs, useRouter } from "expo-router";
+import { Text, View, ActivityIndicator } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   Home,
   BookOpen,
@@ -16,7 +17,7 @@ const TabIcon = ({ focused, title, Icon }: any) => {
       <Icon size={26} color={focused ? "#E1C46D" : "#A5A5A5"} />
       <Text
         numberOfLines={1}
-        ellipsizeMode='clip' // Ensures text is fully visible
+        ellipsizeMode='clip'
         style={{
           fontSize: 12,
           fontWeight: "600",
@@ -24,7 +25,7 @@ const TabIcon = ({ focused, title, Icon }: any) => {
           marginTop: 4,
           textAlign: "center",
           zIndex: 10,
-          minWidth: 70, // Ensures text has enough space
+          minWidth: 70,
         }}
       >
         {title}
@@ -35,6 +36,40 @@ const TabIcon = ({ focused, title, Icon }: any) => {
 
 const _layout = () => {
   const insets = useSafeAreaInsets();
+  const router = useRouter();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const checkAppState = async () => {
+      try {
+        const hasSeenOnboarding = await AsyncStorage.getItem(
+          "hasSeenOnboarding"
+        );
+        const token = await AsyncStorage.getItem("userToken");
+
+        if (!hasSeenOnboarding) {
+          await AsyncStorage.setItem("hasSeenOnboarding", "true"); // Mark onboarding as seen
+          router.replace("/onboarding/OnboardingScreen"); // Redirect to onboarding
+        } else if (!token) {
+          router.replace("/(auth)/login"); // Redirect if no token
+        }
+      } catch (error) {
+        console.error("Error checking app state:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    checkAppState();
+  }, []);
+
+  if (loading) {
+    return (
+      <View className='flex-1 justify-center items-center bg-white'>
+        <ActivityIndicator size='large' color='#E1C46D' />
+      </View>
+    );
+  }
 
   return (
     <Tabs
@@ -43,14 +78,14 @@ const _layout = () => {
         tabBarItemStyle: {
           justifyContent: "center",
           alignItems: "center",
-          minHeight: 65, // Prevents tab bar from cutting off text
+          minHeight: 65,
         },
         tabBarStyle: {
           backgroundColor: "#03174B",
-          height: 60 + insets.bottom, // Increased height
+          height: 60 + insets.bottom,
           borderTopWidth: 0,
-          paddingBottom: insets.bottom + 10, // Extra padding to avoid cutoff
-          paddingTop: 8, // Gives more space for text visibility
+          paddingBottom: insets.bottom + 10,
+          paddingTop: 8,
           elevation: 8,
           shadowColor: "#000",
           shadowOffset: { width: 0, height: -3 },

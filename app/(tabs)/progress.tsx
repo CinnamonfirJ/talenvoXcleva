@@ -33,17 +33,19 @@ const AchievementCard = ({
   title,
   description,
   bgColor,
+  textColor,
 }: {
   icon: React.ReactNode;
   title: string;
   description: string;
   bgColor: string;
+  textColor: string;
 }) => {
   return (
     <View className={`${bgColor} rounded-xl p-4 shadow-sm w-[48%] mb-4`}>
       <View className='items-center mb-1'>{icon}</View>
-      <Text className='text-center font-bold text-gray-800 mb-1'>{title}</Text>
-      <Text className='text-center text-xs text-gray-50'>{description}</Text>
+      <Text className={`text-center font-bold ${textColor} mb-1`}>{title}</Text>
+      <Text className={`text-center text-xs ${textColor}`}>{description}</Text>
     </View>
   );
 };
@@ -133,6 +135,7 @@ export default function ProgressPage() {
               7 - userStats.streak
             } more days to unlock 500XP weekly points!`}
             bgColor='bg-[#ffcccb]'
+            textColor='text-gray-800'
           />
 
           {/* Only show hours card if hours > 0 */}
@@ -142,6 +145,7 @@ export default function ProgressPage() {
               title={`${Math.round(userStats.hoursLearned)} hours!`}
               description="You're a great learner, Keep it up!"
               bgColor='bg-[#c7d2fe]'
+              textColor='text-gray-800'
             />
           )}
 
@@ -152,6 +156,7 @@ export default function ProgressPage() {
               title={`${userStats.totalXP} XP`}
               description='Progress Master! Keep up the learning'
               bgColor='bg-[#2a4b8d]'
+              textColor='text-gray-50'
             />
           )}
 
@@ -162,6 +167,7 @@ export default function ProgressPage() {
               title='Reader'
               description='Your consistency is paying off! Great Job.'
               bgColor='bg-[#ffcccb]'
+              textColor='text-gray-800'
             />
           )}
         </View>

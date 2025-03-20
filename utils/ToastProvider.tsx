@@ -42,6 +42,11 @@ export const showToast = (
   } as ToastShowParams);
 };
 
-export default function ToastProvider() {
-  return <Toast config={toastConfig} />;
+export default function ToastProvider({ children }: any) {
+  return (
+    <>
+      <Toast config={toastConfig} />
+      {children}
+    </>
+  );
 }
