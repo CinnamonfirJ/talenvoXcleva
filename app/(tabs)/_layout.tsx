@@ -10,6 +10,7 @@ import {
   ClipboardList,
   Settings,
 } from "lucide-react-native"; // Import Lucide icons
+import { getUserProfile } from "@/services/auth";
 
 const TabIcon = ({ focused, title, Icon }: any) => {
   return (
@@ -45,12 +46,13 @@ const _layout = () => {
         const hasSeenOnboarding = await AsyncStorage.getItem(
           "hasSeenOnboarding"
         );
-        const token = await AsyncStorage.getItem("userToken");
+        const loggedInUser = await getUserProfile();
+        const userName = loggedInUser.firstName;
 
         if (!hasSeenOnboarding) {
           await AsyncStorage.setItem("hasSeenOnboarding", "true"); // Mark onboarding as seen
           router.replace("/onboarding/OnboardingScreen"); // Redirect to onboarding
-        } else if (!token) {
+        } else if (!userName) {
           router.replace("/(auth)/login"); // Redirect if no token
         }
       } catch (error) {

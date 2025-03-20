@@ -102,6 +102,7 @@ export default function Home() {
         const fullName = userData.firstName + userData.lastName;
         setUserName(fullName);
       } catch (error) {
+        router.replace("/(auth)/login");
         console.error("Error loading profile:", error);
       }
     };
