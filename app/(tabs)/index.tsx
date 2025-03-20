@@ -128,14 +128,14 @@ export default function Home() {
 
     checkUserStatus();
 
-    const clearStorage = async () => {
-      try {
-        await AsyncStorage.clear();
-        console.log("AsyncStorage cleared!");
-      } catch (error) {
-        console.error("Error clearing AsyncStorage:", error);
-      }
-    };
+    // const clearStorage = async () => {
+    //   try {
+    //     await AsyncStorage.clear();
+    //     console.log("AsyncStorage cleared!");
+    //   } catch (error) {
+    //     console.error("Error clearing AsyncStorage:", error);
+    //   }
+    // };
 
     // Call this function to clear storage
     // clearStorage();

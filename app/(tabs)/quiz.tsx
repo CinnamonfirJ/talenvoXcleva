@@ -13,7 +13,7 @@ import { useRouter } from "expo-router";
 import { Clock } from "lucide-react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { quizzes } from "@/constants/quizData";
-import { BarChart } from "react-native-chart-kit";
+// import { BarChart } from "react-native-chart-kit";
 
 // Quiz Card Component
 const QuizCard = ({
@@ -223,7 +223,7 @@ export default function QuizPage() {
           Quiz Progress Tracker
         </Text>
         <View className='bg-white rounded-xl p-4 shadow-sm mb-6'>
-          <BarChart
+          {/* <BarChart
             data={chartData}
             width={screenWidth - 16} // Account for padding inside the card
             height={220}
@@ -239,7 +239,7 @@ export default function QuizPage() {
             }}
             yAxisLabel=''
             yAxisSuffix='%'
-          />
+          /> */}
           <View className='flex-row justify-center mt-2'>
             <View className='flex-row items-center mr-4'>
               <View className='w-3 h-3 rounded-full bg-[#6495ED] mr-1' />
