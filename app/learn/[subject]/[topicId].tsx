@@ -137,10 +137,10 @@ export default function TopicDetail() {
   // Handle case where topic is not found
   if (!topic) {
     return (
-      <SafeAreaView className='flex-1 bg-[#f5f7fa] items-center justify-center'>
+      <SafeAreaView className='flex-1 justify-center items-center bg-[#f5f7fa]'>
         <Text>Topic not found</Text>
         <TouchableOpacity
-          className='mt-4 p-3 bg-[#2a4b8d] rounded-lg'
+          className='bg-[#2a4b8d] mt-4 p-3 rounded-lg'
           onPress={() => router.back()}
         >
           <Text className='text-white'>Go Back</Text>
@@ -155,9 +155,9 @@ export default function TopicDetail() {
 
       <ScrollView className='flex-1' showsVerticalScrollIndicator={false}>
         {/* Header with back button */}
-        <View className='absolute top-4 left-4 z-10'>
+        <View className='top-4 left-4 z-10 absolute'>
           <TouchableOpacity
-            className='bg-white/80 rounded-full p-2'
+            className='bg-white/80 p-2 rounded-full'
             onPress={() => router.back()}
           >
             <ChevronLeft size={24} color='#000' />
@@ -171,43 +171,43 @@ export default function TopicDetail() {
               ? { uri: topic.image }
               : images.adaptiveIcon
           }
-          className='w-full h-[180px] rounded-xl'
+          className='rounded-xl w-full h-[180px]'
           resizeMode='cover'
         />
 
         {/* Content */}
         <View className='px-4 pt-3'>
           {/* Title and Subject */}
-          <Text className='text-xl font-semibold text-black'>
+          <Text className='font-semibold text-black text-xl'>
             {topic.title}
           </Text>
-          <Text className='text-base text-gray-700 mb-4'>{topic.subject}</Text>
+          <Text className='mb-4 text-gray-700 text-base'>{topic.subject}</Text>
 
           {/* Tags and Download Button */}
-          <View className='flex-row items-center justify-between mb-6'>
+          <View className='flex-row justify-between items-center mb-6'>
             <View className='flex-row'>
-              <View className='bg-[#e6e6fa] rounded-full px-4 py-1 mr-2'>
+              <View className='bg-[#e6e6fa] mr-2 px-4 py-1 rounded-full'>
                 <Text className='text-[#2a4b8d] text-sm'>{topic.level}</Text>
               </View>
-              <View className='bg-[#fff8e1] rounded-full px-4 py-1'>
+              <View className='bg-[#fff8e1] px-4 py-1 rounded-full'>
                 <Text className='text-[#ffa000] text-sm'>{topic.duration}</Text>
               </View>
             </View>
-            <TouchableOpacity className='bg-[#2a4b8d] rounded-full p-2'>
+            <TouchableOpacity className='bg-[#2a4b8d] p-2 rounded-full'>
               <Download size={20} color='#fff' />
             </TouchableOpacity>
           </View>
 
           {/* Description */}
-          <Text className='text-lg font-semibold text-black mb-2'>
+          <Text className='mb-2 font-semibold text-black text-lg'>
             Description
           </Text>
-          <Text className='text-gray-700 leading-5 mb-6'>
+          <Text className='mb-6 text-gray-700 leading-5'>
             {topic.description}
           </Text>
 
           {/* Topic Outline */}
-          <Text className='text-lg font-semibold text-black mb-4'>
+          <Text className='mb-4 font-semibold text-black text-lg'>
             Topic Outline
           </Text>
 
@@ -222,12 +222,12 @@ export default function TopicDetail() {
               }
               disabled={!isLessonAccessible(item.id)}
             >
-              <View className='bg-[#2a4b8d]/10 rounded-full p-2 mr-3'>
+              <View className='bg-[#2a4b8d]/10 mr-3 p-2 rounded-full'>
                 <GraduationCap size={20} color='#2a4b8d' />
               </View>
               <Text className='flex-1 text-gray-700'>{item.title}</Text>
               {isLessonCompleted(item.id) ? (
-                <View className='bg-green-100 rounded-full p-1'>
+                <View className='bg-green-100 p-1 rounded-full'>
                   <Check size={18} color='green' />
                 </View>
               ) : (
@@ -238,10 +238,10 @@ export default function TopicDetail() {
 
           {/* Start Learning Button */}
           <TouchableOpacity
-            className='bg-[#2a4b8d] rounded-lg py-4 items-center mt-6 mb-10'
+            className='items-center bg-[#2a4b8d] mt-6 mb-10 py-4 rounded-lg'
             onPress={startLearning}
           >
-            <Text className='text-white text-base font-semibold'>
+            <Text className='font-semibold text-white text-base'>
               {completedLessons.length > 0
                 ? "Continue learning"
                 : "Start learning"}

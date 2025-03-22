@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
   View,
   Text,
@@ -9,31 +9,38 @@ import {
   StatusBar,
 } from "react-native";
 import { Bell } from "lucide-react-native";
-import { useRouter } from "expo-router";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { images } from "@/constants/images";
 
-interface subjects {
+// Define the navigation types
+type LearnNavigationProps = NativeStackNavigationProp<{
+  Subject: { subject: string };
+  Quiz: { name: string };
+}>;
+
+interface SubjectCardProps {
   title: string;
   subtitle: string;
-  image: object;
+  image: any; // Changed from object to any for image source
   onPress: () => void;
 }
 
 // Reusable components
-const SubjectCard = ({ title, subtitle, image, onPress }: subjects) => {
+const SubjectCard = ({ title, subtitle, image, onPress }: SubjectCardProps) => {
   return (
     <TouchableOpacity
-      className='w-[48%] rounded-xl bg-white overflow-hidden shadow-sm'
+      className='bg-white shadow-sm rounded-xl w-[48%] overflow-hidden'
       onPress={onPress}
     >
       <Image
         source={image}
-        className='w-full h-[150px] rounded-xl  object-cover'
+        className='rounded-xl w-full h-[150px] object-cover'
       />
       <View className='p-3'>
-        <Text className='text-base font-medium text-black'>{title}</Text>
+        <Text className='font-medium text-black text-base'>{title}</Text>
         {subtitle ? (
-          <Text className='text-sm text-gray-600 mt-1'>{subtitle}</Text>
+          <Text className='mt-1 text-gray-600 text-sm'>{subtitle}</Text>
         ) : null}
       </View>
     </TouchableOpacity>
@@ -41,14 +48,17 @@ const SubjectCard = ({ title, subtitle, image, onPress }: subjects) => {
 };
 
 export default function Learn() {
-  const router = useRouter();
+  // Use React Navigation's useNavigation hook
+  const navigation = useNavigation<LearnNavigationProps>();
 
   const navigateToSubject = (subject: string) => {
-    router.push(`/learn/${subject}`);
+    // Navigate to the Subject screen with the subject parameter
+    navigation.navigate("Subject", { subject });
   };
 
   const navigateToQuiz = (quizName: string) => {
-    router.push(`/quiz?name=${quizName}`);
+    // Navigate to the Quiz screen with the name parameter
+    navigation.navigate("Quiz", { name: quizName });
   };
 
   // New User Home Screen
@@ -56,14 +66,14 @@ export default function Learn() {
     <ScrollView className='flex-1 px-4' showsVerticalScrollIndicator={false}>
       {/* Header */}
       <View className='flex-row justify-between items-center mt-4 mb-5'>
-        <Text className='text-2xl font-semibold text-black'>Welcome</Text>
+        <Text className='font-semibold text-black text-2xl'>Welcome</Text>
         <TouchableOpacity className='p-2'>
           <Bell size={24} color='#000' />
         </TouchableOpacity>
       </View>
 
       {/* Subjects */}
-      <Text className='text-lg font-semibold mb-4 text-black'>Subjects</Text>
+      <Text className='mb-4 font-semibold text-black text-lg'>Subjects</Text>
       <View className='flex-row justify-between mb-6'>
         <SubjectCard
           title='Mathematics'

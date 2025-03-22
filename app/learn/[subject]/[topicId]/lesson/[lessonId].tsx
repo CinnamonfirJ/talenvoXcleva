@@ -10,11 +10,14 @@ import {
   StatusBar,
 } from "react-native";
 import { ChevronLeft } from "lucide-react-native";
-import { useRouter, useLocalSearchParams } from "expo-router";
+import {
+  useRouter,
+  useLocalSearchParams,
+  RelativePathString,
+} from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { topicDetails } from "@/constants/topicDetails";
 import { images } from "@/constants/images";
-// import { topicDetails } from "@/constants/topicData"; // You would move the data to a separate file
 
 export default function LessonContent() {
   const router = useRouter();
@@ -71,7 +74,9 @@ export default function LessonContent() {
       // Navigate to next lesson or quiz
       if (lessonIdNum < topic.outline.length) {
         router.push(
-          `/learn/${subjectStr}/${topicIdStr}/lesson/${lessonIdNum + 1}`
+          `/learn/${subjectStr}/${topicIdStr}/lesson/${
+            lessonIdNum + 1
+          }` as RelativePathString
         );
       } else {
         // Last lesson, go to quiz
@@ -85,10 +90,10 @@ export default function LessonContent() {
   // Handle case where lesson is not found
   if (!lesson || !topic) {
     return (
-      <SafeAreaView className='flex-1 bg-[#f5f7fa] items-center justify-center'>
+      <SafeAreaView className='flex-1 justify-center items-center bg-[#f5f7fa]'>
         <Text>Lesson not found</Text>
         <TouchableOpacity
-          className='mt-4 p-3 bg-[#2a4b8d] rounded-lg'
+          className='bg-[#2a4b8d] mt-4 p-3 rounded-lg'
           onPress={() => router.back()}
         >
           <Text className='text-white'>Go Back</Text>
@@ -109,16 +114,16 @@ export default function LessonContent() {
             onPress={() => router.back()}
           >
             <ChevronLeft size={24} color='#000' />
-            <Text className='text-base text-gray-700'>Back</Text>
+            <Text className='text-gray-700 text-base'>Back</Text>
           </TouchableOpacity>
         </View>
 
         {/* Lesson Title */}
-        <Text className='text-xl font-semibold text-black'>{topic.title}</Text>
-        <Text className='text-lg text-gray-700 mb-4'>{lesson.title}</Text>
+        <Text className='font-semibold text-black text-xl'>{topic.title}</Text>
+        <Text className='mb-4 text-gray-700 text-lg'>{lesson.title}</Text>
 
         {/* Lesson Content */}
-        <Text className='text-gray-700 leading-6 mb-4'>
+        <Text className='mb-4 text-gray-700 leading-6'>
           {lesson.content.split("\n\n")[0]}
         </Text>
 
@@ -129,21 +134,21 @@ export default function LessonContent() {
               ? { uri: topic.image }
               : images.adaptiveIcon
           }
-          className='w-full h-[200px] rounded-lg mb-4'
+          className='mb-4 rounded-lg w-full h-[200px]'
           resizeMode='cover'
         />
 
         {/* More Content */}
-        <Text className='text-gray-700 leading-6 mb-8'>
+        <Text className='mb-8 text-gray-700 leading-6'>
           {lesson.content.split("\n\n")[1] || ""}
         </Text>
 
         {/* Next/Quiz Button */}
         <TouchableOpacity
-          className='bg-[#2a4b8d] rounded-lg py-4 items-center mb-10'
+          className='items-center bg-[#2a4b8d] mb-10 py-4 rounded-lg'
           onPress={markAsCompleted}
         >
-          <Text className='text-white text-base font-semibold'>
+          <Text className='font-semibold text-white text-base'>
             {lessonIdNum < topic.outline.length ? "Next" : "Take Quiz"}
           </Text>
         </TouchableOpacity>

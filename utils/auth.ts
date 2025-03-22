@@ -18,11 +18,11 @@ export const registerUser = async (userData: {
       },
       body: JSON.stringify({
         ...userData,
-        role: { name: "user" },
       }),
     });
 
     const data = await response.json();
+    console.log(data);
 
     if (!response.ok) {
       throw new Error(data?.error?.message?.message || "Signup failed");
@@ -45,7 +45,6 @@ export const loginUser = async (email: string, password: string) => {
     });
 
     const data = await response.json();
-    // console.log(data.data?.role);
 
     if (!response.ok) {
       throw new Error(data?.error?.message?.message || "Login failed");

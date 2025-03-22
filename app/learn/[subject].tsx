@@ -10,7 +10,11 @@ import {
   StatusBar,
 } from "react-native";
 import { Bell, ChevronLeft } from "lucide-react-native";
-import { useRouter, useLocalSearchParams } from "expo-router";
+import {
+  useRouter,
+  useLocalSearchParams,
+  RelativePathString,
+} from "expo-router";
 import { images } from "@/constants/images";
 import { topicDetails } from "@/constants/topicDetails";
 
@@ -32,14 +36,14 @@ interface Topic {
 const TopicCard = ({ title, description, image, onPress }: TopicCardProps) => {
   return (
     <TouchableOpacity
-      className='w-[48%] rounded-xl overflow-hidden bg-white shadow-sm mb-4'
+      className='bg-white shadow-sm mb-4 rounded-xl w-[48%] overflow-hidden'
       onPress={onPress}
     >
       <Image source={image} className='w-full h-[150px] object-cover' />
       <View className='p-3'>
-        <Text className='text-base font-medium text-black'>{title}</Text>
+        <Text className='font-medium text-black text-base'>{title}</Text>
         {description ? (
-          <Text className='text-sm text-gray-600 mt-1 line-clamp-2'>
+          <Text className='mt-1 text-gray-600 text-sm line-clamp-2'>
             {description}
           </Text>
         ) : null}
@@ -133,7 +137,7 @@ export default function SubjectTopics() {
     subjectKey.charAt(0).toUpperCase() + subjectKey.slice(1);
 
   const navigateToTopic = (topicId: number) => {
-    router.push(`/learn/${subjectKey}/${topicId}`);
+    router.push(`/learn/${subjectKey}/${topicId}` as RelativePathString);
   };
 
   return (
@@ -147,7 +151,7 @@ export default function SubjectTopics() {
             <TouchableOpacity className='mr-2' onPress={() => router.back()}>
               <ChevronLeft size={24} color='#000' />
             </TouchableOpacity>
-            <Text className='text-2xl font-semibold text-black'>
+            <Text className='font-semibold text-black text-2xl'>
               {formattedSubject}
             </Text>
           </View>
@@ -157,7 +161,7 @@ export default function SubjectTopics() {
         </View>
 
         {/* Topics */}
-        <Text className='text-lg font-semibold mb-4 text-black'>Topics</Text>
+        <Text className='mb-4 font-semibold text-black text-lg'>Topics</Text>
         <View className='flex-row flex-wrap justify-between'>
           {topics.map((topic) => (
             <TopicCard
@@ -172,7 +176,7 @@ export default function SubjectTopics() {
 
         {/* If no topics are available */}
         {topics.length === 0 && (
-          <View className='items-center justify-center py-10'>
+          <View className='justify-center items-center py-10'>
             <Text className='text-gray-500'>
               No topics available for this subject.
             </Text>

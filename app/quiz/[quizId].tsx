@@ -132,10 +132,10 @@ export default function QuizDetail() {
   // If quiz not found
   if (!quiz) {
     return (
-      <SafeAreaView className='flex-1 bg-[#f5f7fa] items-center justify-center'>
+      <SafeAreaView className='flex-1 justify-center items-center bg-[#f5f7fa]'>
         <Text>Quiz not found</Text>
         <TouchableOpacity
-          className='mt-4 p-3 bg-[#2a4b8d] rounded-lg'
+          className='bg-[#2a4b8d] mt-4 p-3 rounded-lg'
           onPress={() => router.back()}
         >
           <Text className='text-white'>Go Back</Text>
@@ -159,10 +159,10 @@ export default function QuizDetail() {
             <TouchableOpacity onPress={() => router.back()}>
               <ChevronLeft size={24} color='#000' />
             </TouchableOpacity>
-            <Text className='text-lg font-semibold'>{quiz.title}</Text>
+            <Text className='font-semibold text-lg'>{quiz.title}</Text>
             <View className='flex-row items-center'>
               <Clock size={18} color='#ffa000' />
-              <Text className='text-[#ffa000] ml-1'>
+              <Text className='ml-1 text-[#ffa000]'>
                 {formatTime(timeLeft)}
               </Text>
             </View>
@@ -170,22 +170,22 @@ export default function QuizDetail() {
 
           {/* Instructions (only on first question) */}
           {currentQuestion === 0 && (
-            <View className='bg-blue-50 p-4 rounded-lg mb-4'>
+            <View className='bg-blue-50 mb-4 p-4 rounded-lg'>
               <Text className='text-gray-700'>{quiz.instruction}</Text>
             </View>
           )}
 
           {/* Progress */}
           <View className='mb-6'>
-            <View className='h-2 w-full bg-gray-200 rounded-full'>
+            <View className='bg-gray-200 rounded-full w-full h-2'>
               <View
-                className='h-full bg-[#2a4b8d] rounded-full'
+                className='bg-[#2a4b8d] rounded-full h-full'
                 style={{
                   width: `${((currentQuestion + 1) / questions.length) * 100}%`,
                 }}
               />
             </View>
-            <Text className='text-right text-gray-600 mt-1'>
+            <Text className='mt-1 text-gray-600 text-right'>
               Question {currentQuestion + 1} of {questions.length}
             </Text>
           </View>
@@ -193,7 +193,7 @@ export default function QuizDetail() {
           {/* Question */}
           {question && (
             <View className='flex-1'>
-              <Text className='text-lg font-medium mb-6'>
+              <Text className='mb-6 font-medium text-lg'>
                 {question.questionText}
               </Text>
 
@@ -223,14 +223,14 @@ export default function QuizDetail() {
               </View>
 
               {/* Points indicator */}
-              <Text className='text-gray-500 mb-4'>
+              <Text className='mb-4 text-gray-500'>
                 Points: {question.points}
               </Text>
 
               {/* Navigation Buttons */}
               <View className='flex-row justify-between mb-6'>
                 <TouchableOpacity
-                  className='bg-gray-200 rounded-lg py-3 px-6'
+                  className='bg-gray-200 px-6 py-3 rounded-lg'
                   onPress={prevQuestion}
                   disabled={currentQuestion === 0}
                   style={{ opacity: currentQuestion === 0 ? 0.5 : 1 }}
@@ -240,14 +240,14 @@ export default function QuizDetail() {
 
                 {currentQuestion < questions.length - 1 ? (
                   <TouchableOpacity
-                    className='bg-[#2a4b8d] rounded-lg py-3 px-6'
+                    className='bg-[#2a4b8d] px-6 py-3 rounded-lg'
                     onPress={nextQuestion}
                   >
                     <Text className='text-white'>Next</Text>
                   </TouchableOpacity>
                 ) : (
                   <TouchableOpacity
-                    className='bg-green-600 rounded-lg py-3 px-6'
+                    className='bg-green-600 px-6 py-3 rounded-lg'
                     onPress={submitQuiz}
                   >
                     <Text className='text-white'>Submit</Text>
@@ -260,43 +260,43 @@ export default function QuizDetail() {
       ) : (
         // Quiz completed - show results
         <ScrollView className='flex-1 px-4'>
-          <View className='items-center justify-center py-10'>
-            <Text className='text-2xl font-bold mb-4'>Quiz Completed!</Text>
-            <Text className='text-6xl font-bold text-[#2a4b8d] mb-6'>
+          <View className='justify-center items-center py-10'>
+            <Text className='mb-4 font-bold text-2xl'>Quiz Completed!</Text>
+            <Text className='mb-6 font-bold text-[#2a4b8d] text-6xl'>
               {score}%
             </Text>
 
             {score >= quiz.passingScore ? (
-              <View className='bg-green-100 p-4 rounded-lg mb-6 w-full'>
-                <Text className='text-green-800 text-center font-medium'>
+              <View className='bg-green-100 mb-6 p-4 rounded-lg w-full'>
+                <Text className='font-medium text-green-800 text-center'>
                   Congratulations! You passed the quiz and earned{" "}
                   {quiz.xpReward} XP.
                 </Text>
               </View>
             ) : (
-              <View className='bg-red-100 p-4 rounded-lg mb-6 w-full'>
-                <Text className='text-red-800 text-center font-medium'>
+              <View className='bg-red-100 mb-6 p-4 rounded-lg w-full'>
+                <Text className='font-medium text-red-800 text-center'>
                   You didn't reach the passing score of {quiz.passingScore}%.
                   Try again!
                 </Text>
               </View>
             )}
 
-            <Text className='text-lg text-center mb-8'>
+            <Text className='mb-8 text-lg text-center'>
               You scored {score} out of {quiz.maxScore} points.
             </Text>
 
             <TouchableOpacity
-              className='bg-[#2a4b8d] rounded-lg py-4 px-8 mb-4 w-full'
+              className='bg-[#2a4b8d] mb-4 px-8 py-4 rounded-lg w-full'
               onPress={() => router.push("/quiz")}
             >
-              <Text className='text-white text-center font-semibold'>
+              <Text className='font-semibold text-white text-center'>
                 Back to Quizzes
               </Text>
             </TouchableOpacity>
 
             <TouchableOpacity
-              className='border border-[#2a4b8d] rounded-lg py-4 px-8 w-full'
+              className='px-8 py-4 border border-[#2a4b8d] rounded-lg w-full'
               onPress={() => {
                 setCurrentQuestion(0);
                 setSelectedAnswers({});
@@ -304,7 +304,7 @@ export default function QuizDetail() {
                 setQuizCompleted(false);
               }}
             >
-              <Text className='text-[#2a4b8d] text-center font-semibold'>
+              <Text className='font-semibold text-[#2a4b8d] text-center'>
                 Retake Quiz
               </Text>
             </TouchableOpacity>

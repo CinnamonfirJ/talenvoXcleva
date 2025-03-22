@@ -15,7 +15,7 @@ import { useRouter } from "expo-router";
 import { ChevronLeft, Camera } from "lucide-react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as ImagePicker from "expo-image-picker";
-import { getUserProfile } from "@/services/auth";
+import { getUserProfile } from "@/utils/auth";
 
 const BASE_URL = "https://talenvo-hackaton-be.onrender.com/api/v1";
 

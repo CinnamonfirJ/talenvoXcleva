@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "talenvoXcleva",
-    "slug": "talenvoXcleva",
+    "name": "learnlyng",
+    "slug": "learnlyng",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -16,7 +16,7 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.cinnamonfirj.talenvoXcleva"
+      "package": "com.cinnamonfirj.learnlyng"
     },
     "web": {
       "bundler": "metro",
@@ -29,8 +29,8 @@
         "expo-splash-screen",
         {
           "image": "./assets/images/splash-icon.png",
-          "imageWidth": 500,
-          "resizeMode": "cover",
+          "imageWidth": 200,
+          "resizeMode": "contain",
           "backgroundColor": "#ffffff"
         }
       ]
@@ -43,8 +43,14 @@
         "origin": false
       },
       "eas": {
-        "projectId": "65f17d71-69f1-4355-9945-0874504b9854"
+        "projectId": "34fc4600-aebb-42ae-8069-8d293ef4610f"
       }
+    },
+    "doctor": {
+      "reactNativeDirectoryCheck": {
+        "exclude": ["lucide-react-native", "tailwindcss"]
+      },
+      "listUnknownPackages": false
     }
   }
 }

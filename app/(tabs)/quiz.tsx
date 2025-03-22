@@ -1,4 +1,3 @@
-// app/quiz/index.tsx
 import React, { useEffect, useState } from "react";
 import {
   View,
@@ -9,11 +8,17 @@ import {
   StatusBar,
   Dimensions,
 } from "react-native";
-import { useRouter } from "expo-router";
 import { Clock } from "lucide-react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { quizzes } from "@/constants/quizData";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useNavigation } from "@react-navigation/native";
 // import { BarChart } from "react-native-chart-kit";
+
+// Define the navigation types
+type QuizNavigationProps = NativeStackNavigationProp<{
+  QuizDetails: { quizId: number };
+}>;
 
 // Quiz Card Component
 const QuizCard = ({
@@ -33,15 +38,15 @@ const QuizCard = ({
         !isUnlocked ? "opacity-50" : ""
       }`}
     >
-      <Text className='text-lg font-semibold text-black'>{quiz.subject}</Text>
-      <Text className='text-base text-gray-700 mb-3'>{quiz.topic}</Text>
+      <Text className='font-semibold text-black text-lg'>{quiz.subject}</Text>
+      <Text className='mb-3 text-gray-700 text-base'>{quiz.topic}</Text>
 
       <View className='flex-row items-center mb-4'>
         <Clock size={18} color='#ffa000' />
-        <Text className='text-[#ffa000] ml-2'>{quiz.duration}</Text>
+        <Text className='ml-2 text-[#ffa000]'>{quiz.duration}</Text>
       </View>
 
-      <Text className='text-gray-600 mb-4'>
+      <Text className='mb-4 text-gray-600'>
         Last attempt: {lastAttempt || "Nil"}
       </Text>
 
@@ -104,8 +109,8 @@ const chartData = {
   ],
 };
 
-export default function QuizPage() {
-  const router = useRouter();
+export default function QuizScreen() {
+  const navigation = useNavigation<QuizNavigationProps>();
   const [quizProgress, setQuizProgress] = useState<Record<string, string>>({});
   const [unlockedQuizzes, setUnlockedQuizzes] = useState<number[]>([]);
   const [quizStats, setQuizStats] = useState({
@@ -177,7 +182,7 @@ export default function QuizPage() {
 
   // Navigate to a specific quiz
   const navigateToQuiz = (quizId: number) => {
-    router.push(`/quiz/${quizId}`);
+    navigation.navigate("QuizDetails", { quizId });
   };
 
   // Chart configuration
@@ -219,10 +224,10 @@ export default function QuizPage() {
         </View>
 
         {/* Quiz Progress Tracker */}
-        <Text className='text-xl font-semibold text-black mb-4'>
+        <Text className='mb-4 font-semibold text-black text-xl'>
           Quiz Progress Tracker
         </Text>
-        <View className='bg-white rounded-xl p-4 shadow-sm mb-6'>
+        <View className='bg-white shadow-sm mb-6 p-4 rounded-xl'>
           {/* <BarChart
             data={chartData}
             width={screenWidth - 16} // Account for padding inside the card
@@ -237,23 +242,23 @@ export default function QuizPage() {
               marginVertical: 8,
               borderRadius: 16,
             }}
-            yAxisLabel=''
-            yAxisSuffix='%'
+            yAxisLabel=""
+            yAxisSuffix="%"
           /> */}
           <View className='flex-row justify-center mt-2'>
             <View className='flex-row items-center mr-4'>
-              <View className='w-3 h-3 rounded-full bg-[#6495ED] mr-1' />
-              <Text className='text-xs text-gray-600'>1st</Text>
+              <View className='bg-[#6495ED] mr-1 rounded-full w-3 h-3' />
+              <Text className='text-gray-600 text-xs'>1st</Text>
             </View>
             <View className='flex-row items-center'>
-              <View className='w-3 h-3 rounded-full bg-[#FF6347] mr-1' />
-              <Text className='text-xs text-gray-600'>2nd</Text>
+              <View className='bg-[#FF6347] mr-1 rounded-full w-3 h-3' />
+              <Text className='text-gray-600 text-xs'>2nd</Text>
             </View>
           </View>
         </View>
 
         {/* Upcoming Quizzes */}
-        <Text className='text-xl font-semibold text-black mb-4'>
+        <Text className='mb-4 font-semibold text-black text-xl'>
           Upcoming Quizzes
         </Text>
         <View className='flex-row flex-wrap justify-between'>

@@ -7,12 +7,14 @@ import {
   Image,
   TouchableOpacity,
   StatusBar,
+  Alert,
 } from "react-native";
 import { Bell } from "lucide-react-native";
 import { useRouter } from "expo-router";
 import { images } from "@/constants/images";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { getUserProfile } from "@/services/auth";
+import { getUserProfile } from "@/utils/auth";
+import { useAuth } from "@/context/AuthContext";
 
 interface subjects {
   title: string;
@@ -34,17 +36,17 @@ interface learnings {
 const SubjectCard = ({ title, subtitle, image, onPress }: subjects) => {
   return (
     <TouchableOpacity
-      className='w-[48%] rounded-xl bg-white overflow-hidden shadow-sm'
+      className='bg-white shadow-sm rounded-xl w-[48%] overflow-hidden'
       onPress={onPress}
     >
       <Image
         source={image}
-        className='w-full h-[150px] rounded-xl  object-cover'
+        className='rounded-xl w-full h-[150px] object-cover'
       />
       <View className='p-3'>
-        <Text className='text-base font-medium text-black'>{title}</Text>
+        <Text className='font-medium text-black text-base'>{title}</Text>
         {subtitle ? (
-          <Text className='text-sm text-gray-600 mt-1'>{subtitle}</Text>
+          <Text className='mt-1 text-gray-600 text-sm'>{subtitle}</Text>
         ) : null}
       </View>
     </TouchableOpacity>
@@ -53,9 +55,9 @@ const SubjectCard = ({ title, subtitle, image, onPress }: subjects) => {
 
 const ProgressBar = ({ progress }: any) => {
   return (
-    <View className='h-2 w-full bg-gray-200 rounded-full mt-1 mb-2'>
+    <View className='bg-gray-200 mt-1 mb-2 rounded-full w-full h-2'>
       <View
-        className='h-full bg-yellow-400 rounded-full'
+        className='bg-yellow-400 rounded-full h-full'
         style={{ width: `${progress}%` }}
       />
     </View>
@@ -71,19 +73,19 @@ const ContinueLearningCard = ({
   onPress,
 }: learnings) => {
   return (
-    <View className='bg-white rounded-xl p-4 shadow-sm w-[48%]'>
-      <Text className='text-base font-medium text-black'>{subject}</Text>
-      <Text className='text-sm text-gray-600'>{topic}</Text>
-      <Text className='text-xs text-gray-500 mt-2'>Progress: {progress}%</Text>
+    <View className='bg-white shadow-sm p-4 rounded-xl w-[48%]'>
+      <Text className='font-medium text-black text-base'>{subject}</Text>
+      <Text className='text-gray-600 text-sm'>{topic}</Text>
+      <Text className='mt-2 text-gray-500 text-xs'>Progress: {progress}%</Text>
       <ProgressBar progress={progress} />
-      <Text className='text-xs text-gray-500 mb-3'>
+      <Text className='mb-3 text-gray-500 text-xs'>
         Lesson Completed: {lessonsCompleted}/{totalLessons}
       </Text>
       <TouchableOpacity
-        className='bg-[#2a4b8d] rounded-lg py-2 items-center'
+        className='items-center bg-[#2a4b8d] py-2 rounded-lg'
         onPress={onPress}
       >
-        <Text className='text-white text-sm font-medium'>Continue</Text>
+        <Text className='font-medium text-white text-sm'>Continue</Text>
       </TouchableOpacity>
     </View>
   );
@@ -92,14 +94,17 @@ const ContinueLearningCard = ({
 export default function Home() {
   const router = useRouter();
   const [isNewUser, setIsNewUser] = useState(true);
-  const [userName, setUserName] = useState(); // This would come from your auth system
+  const [userName, setUserName] = useState(""); // This would come from your auth system
+
+  // Use the auth context for authentication
+  const { signOut } = useAuth();
 
   // Load user profile from API
   useEffect(() => {
     const loadProfile = async () => {
       try {
         const userData = await getUserProfile();
-        const fullName = userData.firstName + userData.lastName;
+        const fullName = userData.firstName + " " + userData.lastName;
         setUserName(fullName);
       } catch (error) {
         router.replace("/(auth)/login");
@@ -149,37 +154,42 @@ export default function Home() {
     router.push(`/quiz?name=${quizName}`);
   };
 
+  const handleSignOut = () => {
+    Alert.alert("Notification", "Signed Out");
+    signOut();
+  };
+
   // New User Home Screen
   const NewUserHomeScreen = () => (
     <ScrollView className='flex-1 px-4' showsVerticalScrollIndicator={false}>
       {/* Header */}
       <View className='flex-row justify-between items-center mt-4 mb-5'>
-        <Text className='text-2xl font-semibold text-black'>
+        <Text className='font-semibold text-black text-2xl'>
           Welcome, {userName}
         </Text>
-        <TouchableOpacity className='p-2'>
+        <TouchableOpacity className='p-2' onPress={handleSignOut}>
           <Bell size={24} color='#000' />
         </TouchableOpacity>
       </View>
 
       {/* Banner */}
-      <View className='bg-[#e6e6fa] rounded-xl p-4 mb-6'>
-        <Text className='text-sm text-gray-700 leading-5 mb-4 text-center'>
+      <View className='bg-[#e6e6fa] mb-6 p-4 rounded-xl'>
+        <Text className='mb-4 text-gray-700 text-sm text-center leading-5'>
           "Unlock your potential with fun and interactive lessons! Choose a
           subject and start your learning journey today."
         </Text>
         <TouchableOpacity
-          className='bg-[#2a4b8d] rounded-lg py-3 items-center'
+          className='items-center bg-[#2a4b8d] py-3 rounded-lg'
           onPress={() => router.push("/learn")}
         >
-          <Text className='text-white text-base font-semibold'>
+          <Text className='font-semibold text-white text-base'>
             Get started
           </Text>
         </TouchableOpacity>
       </View>
 
       {/* Topics of the week */}
-      <Text className='text-lg font-semibold mb-4 text-black'>
+      <Text className='mb-4 font-semibold text-black text-lg'>
         Topics of the week
       </Text>
       <View className='flex-row justify-between mb-6'>
@@ -198,7 +208,7 @@ export default function Home() {
       </View>
 
       {/* Subjects */}
-      <Text className='text-lg font-semibold mb-4 text-black'>Subjects</Text>
+      <Text className='mb-4 font-semibold text-black text-lg'>Subjects</Text>
       <View className='flex-row justify-between mb-6'>
         <SubjectCard
           title='Mathematics'
@@ -223,32 +233,32 @@ export default function Home() {
     <ScrollView className='flex-1 px-4' showsVerticalScrollIndicator={false}>
       {/* Header */}
       <View className='flex-row justify-between items-center mt-4 mb-5'>
-        <Text className='text-2xl font-semibold text-black'>
+        <Text className='font-semibold text-black text-2xl'>
           Welcome, {userName}
         </Text>
-        <TouchableOpacity className='p-2'>
+        <TouchableOpacity className='p-2' onPress={handleSignOut}>
           <Bell size={24} color='#000' />
         </TouchableOpacity>
       </View>
 
       {/* Upcoming Quiz */}
-      <View className='bg-[#ffebe6] rounded-xl p-4 mb-6'>
-        <Text className='text-sm text-gray-700 mb-1'>Upcoming Quiz:</Text>
+      <View className='bg-[#ffebe6] mb-6 p-4 rounded-xl'>
+        <Text className='mb-1 text-gray-700 text-sm'>Upcoming Quiz:</Text>
         <View className='flex-row justify-between items-center'>
-          <Text className='text-xl font-semibold text-black'>
+          <Text className='font-semibold text-black text-xl'>
             Algebra Basics
           </Text>
           <TouchableOpacity
-            className='bg-[#2a4b8d] rounded-lg px-4 py-2'
+            className='bg-[#2a4b8d] px-4 py-2 rounded-lg'
             onPress={() => navigateToQuiz("algebra-basics")}
           >
-            <Text className='text-white text-sm font-medium'>Take Quiz</Text>
+            <Text className='font-medium text-white text-sm'>Take Quiz</Text>
           </TouchableOpacity>
         </View>
       </View>
 
       {/* Continue Learning */}
-      <Text className='text-lg font-semibold mb-4 text-black'>
+      <Text className='mb-4 font-semibold text-black text-lg'>
         Continue Learning
       </Text>
       <View className='flex-row justify-between mb-6'>
@@ -273,7 +283,7 @@ export default function Home() {
       </View>
 
       {/* Topics of the week */}
-      <Text className='text-lg font-semibold mb-4 text-black'>
+      <Text className='mb-4 font-semibold text-black text-lg'>
         Topics of the week
       </Text>
       <View className='flex-row justify-between mb-6'>
@@ -292,7 +302,7 @@ export default function Home() {
       </View>
 
       {/* Subjects */}
-      <Text className='text-lg font-semibold mb-4 text-black'>Subjects</Text>
+      <Text className='mb-4 font-semibold text-black text-lg'>Subjects</Text>
       <View className='flex-row justify-between mb-6'>
         <SubjectCard
           title='Mathematics'
