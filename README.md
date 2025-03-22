@@ -79,7 +79,7 @@ Ensure you have the following installed:
 
 1. **Clone the repository:**
    ```sh
-   git clone https://github.com/yourusername/projectname.git
+   git clone https://github.com/CinnamonfirJ/talenvoXcleva.git
    cd projectname
    ```
 2. **Install dependencies:**
