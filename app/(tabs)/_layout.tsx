@@ -1,3 +1,7 @@
+import "react-native-gesture-handler";
+import { enableScreens } from "react-native-screens";
+enableScreens();
+
 import React from "react";
 import { Tabs } from "expo-router";
 import { Text, View } from "react-native";

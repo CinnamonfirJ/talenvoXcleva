@@ -1,3 +1,7 @@
+import "react-native-gesture-handler";
+import { enableScreens } from "react-native-screens";
+enableScreens();
+
 import { Stack, useRouter, useSegments } from "expo-router";
 import { useEffect } from "react";
 import "./global.css";
