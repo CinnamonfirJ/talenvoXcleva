@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import Toast from "react-native-toast-message";
 import { Eye, EyeOff, ArrowLeft } from "lucide-react-native";
-import { useRouter } from "expo-router";
+import { RelativePathString, useRouter } from "expo-router";
 import { showToast } from "@/utils/ToastProvider";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useAuth } from "@/context/AuthContext";
@@ -29,7 +29,7 @@ export default function LoginScreen() {
   // Redirect if already authenticated
   useEffect(() => {
     if (isAuthenticated && user) {
-      router.replace("/(tabs)/home");
+      router.replace("home" as RelativePathString);
     }
   }, [isAuthenticated, user]);
 
@@ -88,11 +88,11 @@ export default function LoginScreen() {
       <ScrollView className='flex-1 bg-white'>
         <View
           style={{ paddingTop: insets.top }}
-          className='relative w-full items-center'
+          className='relative items-center w-full'
         >
           {/* Back button */}
           <TouchableOpacity
-            className='absolute left-4 z-10'
+            className='left-4 z-10 absolute'
             style={{ top: insets.top + 10 }}
             onPress={() => router.back()}
           >
@@ -100,22 +100,22 @@ export default function LoginScreen() {
           </TouchableOpacity>
 
           {/* Blue Background */}
-          <View className='bg-[#03174B] w-full h-40 items-center justify-center rounded-b-[150px]'>
-            <Text className='text-white text-4xl font-bold'>LearnlyNG</Text>
-            <Text className='text-white text-xs text-center px-4'>
+          <View className='justify-center items-center bg-[#03174B] rounded-b-[150px] w-full h-40'>
+            <Text className='font-bold text-white text-4xl'>LearnlyNG</Text>
+            <Text className='px-4 text-white text-xs text-center'>
               Empowering Minds, Transforming Education.
             </Text>
           </View>
         </View>
 
         <View className='mt-8 px-6 pb-8'>
-          <Text className='text-2xl font-bold text-[#03174B] mb-4'>
+          <Text className='mb-4 font-bold text-[#03174B] text-2xl'>
             Welcome Back
           </Text>
 
           <Text className='text-gray-700'>Email Address</Text>
           <TextInput
-            className='border border-gray-300 rounded-md p-3 mt-1'
+            className='mt-1 p-3 border border-gray-300 rounded-md'
             placeholder='Email'
             keyboardType='email-address'
             autoCapitalize='none'
@@ -124,8 +124,8 @@ export default function LoginScreen() {
             editable={!loading}
           />
 
-          <Text className='text-gray-700 mt-4'>Password</Text>
-          <View className='flex-row items-center border border-gray-300 rounded-md mt-1'>
+          <Text className='mt-4 text-gray-700'>Password</Text>
+          <View className='flex-row items-center mt-1 border border-gray-300 rounded-md'>
             <TextInput
               className='flex-1 p-3'
               placeholder='Password'
@@ -167,13 +167,13 @@ export default function LoginScreen() {
             {loading ? (
               <ActivityIndicator color='white' />
             ) : (
-              <Text className='text-white text-center font-semibold'>
+              <Text className='font-semibold text-white text-center'>
                 Log In
               </Text>
             )}
           </TouchableOpacity>
 
-          <Text className='text-center text-gray-600 mt-4'>
+          <Text className='mt-4 text-gray-600 text-center'>
             Don't have an account?{" "}
             <Text
               className={`font-semibold ${

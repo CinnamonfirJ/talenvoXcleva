@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import { useRouter } from "expo-router";
+import { RelativePathString, useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useOnboarding } from "@/context/OnboardingContext";
 import { ClipboardList } from "lucide-react-native";
@@ -10,15 +10,14 @@ export default function OnboardingStep2() {
   const insets = useSafeAreaInsets();
   const { setOnboardingComplete } = useOnboarding();
 
-  const handleSkip = async () => {
-    await setOnboardingComplete();
-    router.replace("/(auth)/login");
+  const handleSkip = () => {
+    setOnboardingComplete();
+    router.replace("login" as RelativePathString);
   };
 
   const handleNext = () => {
-    router.push("/(onboarding)/step-3");
+    router.push("step-3" as RelativePathString);
   };
-
   const handleBack = () => {
     router.back();
   };

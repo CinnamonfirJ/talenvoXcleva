@@ -64,6 +64,7 @@ export default function QuizDetail() {
       ...prev,
       [questionId]: answer,
     }));
+    console.log(selectedAnswers);
   };
 
   // Navigate to next question

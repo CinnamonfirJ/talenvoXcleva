@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import { useRouter } from "expo-router";
+import { RelativePathString, useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useOnboarding } from "@/context/OnboardingContext";
 import { LineChart } from "lucide-react-native";
@@ -10,9 +10,9 @@ export default function OnboardingStep3() {
   const insets = useSafeAreaInsets();
   const { setOnboardingComplete } = useOnboarding();
 
-  const handleGetStarted = async () => {
-    await setOnboardingComplete();
-    router.replace("/(auth)/login");
+  const handleGetStarted = () => {
+    setOnboardingComplete();
+    router.replace("login" as RelativePathString);
   };
 
   const handleBack = () => {

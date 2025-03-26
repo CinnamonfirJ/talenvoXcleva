@@ -13,6 +13,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { quizzes } from "@/constants/quizData";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
+import { useRouter } from "expo-router";
 // import { BarChart } from "react-native-chart-kit";
 
 // Define the navigation types
@@ -110,7 +111,7 @@ const chartData = {
 };
 
 export default function QuizScreen() {
-  const navigation = useNavigation<QuizNavigationProps>();
+  const router = useRouter();
   const [quizProgress, setQuizProgress] = useState<Record<string, string>>({});
   const [unlockedQuizzes, setUnlockedQuizzes] = useState<number[]>([]);
   const [quizStats, setQuizStats] = useState({
@@ -182,7 +183,7 @@ export default function QuizScreen() {
 
   // Navigate to a specific quiz
   const navigateToQuiz = (quizId: number) => {
-    navigation.navigate("QuizDetails", { quizId });
+    router.push(`/quiz/${quizId}`);
   };
 
   // Chart configuration
