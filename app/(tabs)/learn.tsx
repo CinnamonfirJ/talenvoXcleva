@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -9,25 +9,18 @@ import {
   StatusBar,
 } from "react-native";
 import { Bell } from "lucide-react-native";
-import { useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useRouter } from "expo-router";
 import { images } from "@/constants/images";
 
-// Define the navigation types
-type LearnNavigationProps = NativeStackNavigationProp<{
-  Subject: { subject: string };
-  Quiz: { name: string };
-}>;
-
-interface SubjectCardProps {
+interface subjects {
   title: string;
   subtitle: string;
-  image: any; // Changed from object to any for image source
+  image: object;
   onPress: () => void;
 }
 
 // Reusable components
-const SubjectCard = ({ title, subtitle, image, onPress }: SubjectCardProps) => {
+const SubjectCard = ({ title, subtitle, image, onPress }: subjects) => {
   return (
     <TouchableOpacity
       className='bg-white shadow-sm rounded-xl w-[48%] overflow-hidden'
@@ -48,17 +41,14 @@ const SubjectCard = ({ title, subtitle, image, onPress }: SubjectCardProps) => {
 };
 
 export default function Learn() {
-  // Use React Navigation's useNavigation hook
-  const navigation = useNavigation<LearnNavigationProps>();
+  const router = useRouter();
 
   const navigateToSubject = (subject: string) => {
-    // Navigate to the Subject screen with the subject parameter
-    navigation.navigate("Subject", { subject });
+    router.push(`/learn/${subject}`);
   };
 
   const navigateToQuiz = (quizName: string) => {
-    // Navigate to the Quiz screen with the name parameter
-    navigation.navigate("Quiz", { name: quizName });
+    router.push(`/quiz?name=${quizName}`);
   };
 
   // New User Home Screen
